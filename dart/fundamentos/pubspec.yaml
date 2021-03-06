@@ -1,0 +1,10 @@
+name: database
+description: A test of using mysql on dart.
+
+environment:
+  # The pub client defaults to an <2.0.0 sdk constraint which we need to explicitly overwrite.
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+
+
+dependencies:
+  mysql1: ^0.17.1

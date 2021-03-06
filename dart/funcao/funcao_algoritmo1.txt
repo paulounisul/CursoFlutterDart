@@ -1,0 +1,17 @@
+funcao( p1, p2 ){
+    //10s -> p1
+    sentenca #01
+    sentenca #02
+    sentenca #03
+    
+    //1s -> p2
+    sentenca #4
+    sentenca #5
+}
+
+
+funcao( 3,17) //11
+funcao( 3,39) //11
+funcao( 3,92) //11
+
+total: 33s
