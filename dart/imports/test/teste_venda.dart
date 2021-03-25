@@ -1,46 +1,47 @@
-import '../modelo/cliente.dart';
 import '../modelo/produto.dart';
 import '../modelo/venda.dart';
+import '../modelo/cliente.dart';
 import '../modelo/venda_item.dart';
 
 main() {
-  Produto p1, p2, p3;
-  VendaItem item1, item2, item3;
-  Venda venda;
+  var venda = Venda(
+      cliente: Cliente(
+        cpf: '123.456.456.145',
+        nome: 'Jose ramires',
+      ),
+      itens: <VendaItem>[
+        VendaItem(
+          quantidade: 2,
+          produto: Produto(
+            codigo: 1,
+            nome: 'Celular Apple. 10',
+            preco: 100,
+            desconto: 0.1,
+          ),
+        ),
+        VendaItem(
+          quantidade: 3,
+          produto: Produto(
+            codigo: 5,
+            nome: 'Mi Fit Band.',
+            preco: 20,
+            desconto: 0.1,
+          ),
+        ),
+        VendaItem(
+          quantidade: 3,
+          produto: Produto(
+            codigo: 3,
+            nome: 'Apple Watch',
+            preco: 50.0,
+            desconto: 0.1,
+          ),
+        ),
+      ]);
 
-  //dados do produtos
-  p1 = new Produto(codigo: 10, desconto: 2, nome: 'Batas Fritas', preco: 22);
-  p2 = new Produto(
-      codigo: 20, desconto: 3, nome: 'Caderno 12 folhas', preco: 28);
+  print("O Valor Total da Venda é: R\$${venda.valorTotal}");
 
-  //dados do produto1
-  p3 = new Produto();
-  p3.codigo = 30;
-  p3.desconto = 8;
-  p3.nome = 'Mochila Preta..';
-  p3.preco = 140;
+  print("Produto 1 é: " + venda.itens[0].produto.nome);
 
-  item1 = new VendaItem(produto: p1, quantidade: 2);
-  item2 = new VendaItem(produto: p2, quantidade: 5);
-  item3 = new VendaItem(produto: p3, quantidade: 2);
-
-  Cliente cliente = new Cliente(cpf: '12445545', nome: 'Jose ramirez lopes');
-
-  venda = new Venda(cliente: cliente, itens: []);
-
-  venda.itens.add(item1);
-  venda.itens.add(item2);
-  venda.itens.add(item3);
-
-  print(venda.cliente.nome);
-  print(venda.valorTotal);
-  print(venda.toString());
-
-  print('----------------');
-
-  for (int i = 0; i <= venda.itens.length; i++) {
-    print(venda.itens[i].preco);
-    print(venda.itens[i].quantidade);
-  }
-  print(venda.valorTotal);
+  print("O cpf do cliente é  é: ${venda.cliente.cpf}");
 }
