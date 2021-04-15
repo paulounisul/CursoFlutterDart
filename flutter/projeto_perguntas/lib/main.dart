@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './resposta.dart';
 import './questao.dart';
 
 //Posso usar uma arrow function tambem..
@@ -13,17 +14,35 @@ class _PerguntaAppState extends State<PerguntaApp> {
   void _responder() {
     setState(() {
       _perguntaSelecionada++;
+      if (_perguntaSelecionada > 2) _perguntaSelecionada = 1;
     });
-
-    print(_perguntaSelecionada);
   }
 
   @override //com esse decorator força  o componente ser reescrito.
   Widget build(BuildContext context) {
-    final List<String> perguntas = [
-      'Qual é a sua cor favorita ?',
-      'Qual é o seu animal favorito ?',
+    //declarativo
+    //final List<Map<String, Object>> perguntas = [
+    //ou po inferencia...
+    final perguntas = [
+      {
+        'texto': "Qual é a sua cor favorita",
+        'respostas': ['Preto', 'Vermelho', 'Azul', 'Branco']
+      },
+      {
+        'texto': 'Qual é ao o seu animal favorito?',
+        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Onça']
+      },
+      {
+        'texto': 'Qual sua atriz favorita?',
+        'respostas': ['Paola', 'Lilian', 'Jennifer', 'Lucy']
+      }
     ];
+
+    List<Widget> respostas = [];
+
+    for (String textoResp in perguntas[_perguntaSelecionada]['respostas']) {
+      respostas.add(Resposta(textoResp, _responder));
+    }
 
     return MaterialApp(
       home: Scaffold(
@@ -32,25 +51,11 @@ class _PerguntaAppState extends State<PerguntaApp> {
         ),
         body: Column(
           children: <Widget>[
-            Questao(perguntas[_perguntaSelecionada]),
-            RaisedButton(
-              child: Text('Resposta 1'),
-              onPressed:
-                  _responder, //passar a função como parametro não usar parenteses
-            ),
-            RaisedButton(
-              child: Text('Resposta 2'),
-              onPressed: _responder,
-              // onPressed: () {
-              //   //função direto
-              //   print('Resposta 2 foi selecionada');
-              // },
-            ),
-            RaisedButton(
-              child: Text('Resposta 3'),
-              onPressed: _responder,
-              //onPressed: () => print('Resposta 3 !!!!'), //arrow funcion()
-            ),
+            Questao(perguntas[_perguntaSelecionada]['texto']),
+            ...respostas, //... é o operador spread.
+            // Resposta('Resposta 1', _responder),
+            // Resposta('Resposta 2', _responder),
+            // Resposta('Resposta 3', _responder),
           ],
         ),
       ),
@@ -58,6 +63,11 @@ class _PerguntaAppState extends State<PerguntaApp> {
   }
 }
 
+// RaisedButton(
+//   child: Text('Resposta 1'),
+//   onPressed:
+//       _responder, //passar a função como parametro não usar parenteses
+// ),
 class PerguntaApp extends StatefulWidget {
   _PerguntaAppState createState() {
     return new _PerguntaAppState();
