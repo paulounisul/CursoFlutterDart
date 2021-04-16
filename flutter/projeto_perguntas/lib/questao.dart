@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class Questao extends StatelessWidget {
   final String texto;
-  final int numPergunta;
 
   Questao(this.texto);
   @override

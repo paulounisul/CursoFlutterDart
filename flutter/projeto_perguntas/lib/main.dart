@@ -10,12 +10,32 @@ main() => runApp(new PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  final _perguntas = const [
+    {
+      'texto': "Qual é a sua cor favorita",
+      'respostas': ['Preto', 'Vermelho', 'Azul', 'Branco']
+    },
+    {
+      'texto': 'Qual é ao o seu animal favorito?',
+      'respostas': ['Coelho', 'Cobra', 'Elefante', 'Onça']
+    },
+    {
+      'texto': 'Qual sua atriz favorita?',
+      'respostas': ['Paola', 'Lilian', 'Jennifer', 'Lucy']
+    }
+  ];
 
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-      if (_perguntaSelecionada > 2) _perguntaSelecionada = 1;
-    });
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+        // if (_perguntaSelecionada > 2) _perguntaSelecionada = 1;
+      });
+    }
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   @override //com esse decorator força  o componente ser reescrito.
@@ -23,41 +43,34 @@ class _PerguntaAppState extends State<PerguntaApp> {
     //declarativo
     //final List<Map<String, Object>> perguntas = [
     //ou po inferencia...
-    final perguntas = [
-      {
-        'texto': "Qual é a sua cor favorita",
-        'respostas': ['Preto', 'Vermelho', 'Azul', 'Branco']
-      },
-      {
-        'texto': 'Qual é ao o seu animal favorito?',
-        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Onça']
-      },
-      {
-        'texto': 'Qual sua atriz favorita?',
-        'respostas': ['Paola', 'Lilian', 'Jennifer', 'Lucy']
-      }
-    ];
 
-    List<Widget> respostas = [];
-
-    for (String textoResp in perguntas[_perguntaSelecionada]['respostas']) {
-      respostas.add(Resposta(textoResp, _responder));
-    }
+    List<String> respostas = temPerguntaSelecionada
+        ? _perguntas[_perguntaSelecionada]['respostas']
+        : null;
+    //refatorar widgets de um forma mais funcional
+    // List<Widget> widgets =
+    //     respostas.map((t) => Resposta(t, _responder)).toList();
+    // //map para transformar listas em algo diferente, pois retorna os mesmos elementos da lista original.
+    // for (String textoResp in respostas) {
+    //   widgets.add(Resposta(textoResp, _responder));
+    // }
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Perguntas'),
         ),
-        body: Column(
-          children: <Widget>[
-            Questao(perguntas[_perguntaSelecionada]['texto']),
-            ...respostas, //... é o operador spread.
-            // Resposta('Resposta 1', _responder),
-            // Resposta('Resposta 2', _responder),
-            // Resposta('Resposta 3', _responder),
-          ],
-        ),
+        body: temPerguntaSelecionada
+            ? Column(
+                children: <Widget>[
+                  Questao(_perguntas[_perguntaSelecionada]['texto']),
+                  ...respostas
+                      .map((t) => Resposta(t, _responder))
+                      .toList(), //... é o operador spread.
+                  // Resposta('Resposta 1', _responder),
+                ],
+              )
+            : null,
       ),
     );
   }
