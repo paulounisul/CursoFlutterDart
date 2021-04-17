@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+import './questao.dart';
+import './resposta.dart';
+
+class Questionario extends StatelessWidget {
+  final Map respostas;
+  final _perguntas;
+  final int _pgSelected;
+  final bool temPerguntaSelecionada;
+
+  Questionario(
+    this.respostas,
+    this._perguntas,
+    this._pgSelected,
+    this.temPerguntaSelecionada,
+  );
+
+  void _responder() {
+    if (temPerguntaSelecionada) {
+      setState(() {
+        this._pgSelected++;
+        // if (_perguntaSelecionada > 2) _perguntaSelecionada = 1;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> respostas =
+        temPerguntaSelecionada ? _perguntas[_pgSelected]['respostas'] : null;
+    return Column(
+      children: <Widget>[
+        Questao(_perguntas[_pgSelected]['texto']),
+        ...respostas
+            .map((t) => Resposta(t, _responder))
+            .toList(), //... é o operador spread.
+        // Resposta('Resposta 1', _responder),
+      ],
+    );
+  }
+}

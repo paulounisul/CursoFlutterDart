@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+//st para ver lista de Widget
 class Questao extends StatelessWidget {
   final String texto;
 

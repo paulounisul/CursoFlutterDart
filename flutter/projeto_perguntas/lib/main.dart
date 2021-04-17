@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './resposta.dart';
-import './questao.dart';
+import './resultado.dart';
+import './questionario.dart';
 
 //Posso usar uma arrow function tambem..
 //main() {
@@ -44,9 +44,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
     //final List<Map<String, Object>> perguntas = [
     //ou po inferencia...
 
-    List<String> respostas = temPerguntaSelecionada
-        ? _perguntas[_perguntaSelecionada]['respostas']
-        : null;
     //refatorar widgets de um forma mais funcional
     // List<Widget> widgets =
     //     respostas.map((t) => Resposta(t, _responder)).toList();
@@ -61,16 +58,12 @@ class _PerguntaAppState extends State<PerguntaApp> {
           title: Text('Perguntas'),
         ),
         body: temPerguntaSelecionada
-            ? Column(
-                children: <Widget>[
-                  Questao(_perguntas[_perguntaSelecionada]['texto']),
-                  ...respostas
-                      .map((t) => Resposta(t, _responder))
-                      .toList(), //... é o operador spread.
-                  // Resposta('Resposta 1', _responder),
-                ],
+            ? Questionario(
+                perguntas: _perguntas,
+                perguntaSelecionada: _perguntaSelecionada,
+                quandoResponder: _responder,
               )
-            : null,
+            : Resultado('Parabéns!!!', 60),
       ),
     );
   }
