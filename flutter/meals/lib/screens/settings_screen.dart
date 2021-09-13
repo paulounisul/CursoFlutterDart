@@ -3,7 +3,8 @@ import '../components/main_drawer.dart';
 import '../models/settings.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  final Function(Settings) onSettingsChanged;
+  const SettingsScreen(this.onSettingsChanged);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -13,16 +14,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   var settings = Settings();
 
   Widget _createSwitch(
-    String title,
-    String subtitle,
-    bool value,
-    onChanged, //flutter 2 não precisa passar a palavra reservada Function()??
-  ) {
+      String title,
+      String subtitle,
+      bool value,
+      Function(bool)
+          onChanged //flutter 2 não precisa passar a palavra reservada Function()??
+      ) {
     return SwitchListTile(
-      title: Text(title),
-      value: value,
-      onChanged: onChanged,
-    );
+        title: Text(title),
+        value: value,
+        onChanged: (value) {
+          onChanged(value);
+          widget.onSettingsChanged(settings);
+        });
   }
 
   @override

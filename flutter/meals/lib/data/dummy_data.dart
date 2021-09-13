@@ -91,7 +91,7 @@ const DUMMY_MEALS = const [
     isVegan: true,
     isVegetarian: true,
     isLactoseFree: true,
-    isSuggarFree: false,
+    isSuggarFree: true,
   ),
   Meal(
     id: 'm2',
@@ -249,7 +249,7 @@ const DUMMY_MEALS = const [
     isVegan: false,
     isVegetarian: true,
     isLactoseFree: false,
-    isSuggarFree: false,
+    isSuggarFree: true,
   ),
   Meal(
     id: 'm7',
