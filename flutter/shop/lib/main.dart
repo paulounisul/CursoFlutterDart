@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shop/pages/counter_page.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/products_overview_page.dart';
-import 'package:shop/providers/counter.dart';
 import 'package:shop/utils/app_routes.dart';
+
+import 'models/product_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CounterProvider(
+    return ChangeNotifierProvider(
+      create: (_) => ProductList(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -23,8 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         home: ProductOverviewPage(),
         routes: {
-          //AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailPage(),
-          AppRoutes.PRODUCT_DETAIL: (ctx) => CounterPage(),
+          AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailPage(),
         },
         debugShowCheckedModeBanner: false,
       ),
