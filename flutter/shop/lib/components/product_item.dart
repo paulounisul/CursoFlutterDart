@@ -8,7 +8,8 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(
       context,
-      //listen: false - Quando não for para a alterações do produto ser renderizado na tela..
+      //listen: false - Qquando não for para a alterações do produto ser renderizado na tela..
+      listen: false,
     );
 
     return ClipRRect(
@@ -34,13 +35,23 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            onPressed: () {
-              product.toggleFavorite();
-            },
-            icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: Theme.of(context).accentColor, //colorScheme.secondary,
+          leading: Consumer<Product>(
+            child: Column(
+              children: [
+                Text('Text 1'),
+                Text('Text 2'),
+                Text('Text 3'),
+              ],
+            ),
+            //Terceiro parametro e um child que pode ser passado para o consumer.
+            builder: (ctx, product, _) => IconButton(
+              onPressed: () {
+                product.toggleFavorite();
+              },
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
+              color: Theme.of(context).accentColor, //colorScheme.secondary,
+            ),
           ),
           title: Text(
             product.title,
