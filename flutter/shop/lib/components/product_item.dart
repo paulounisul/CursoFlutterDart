@@ -44,10 +44,11 @@ class ProductItem extends StatelessWidget {
               ],
             ),
             //Terceiro parametro e um child que pode ser passado para o consumer.
-            builder: (ctx, product, _) => IconButton(
+            builder: (ctx, product, child) => IconButton(
               onPressed: () {
                 product.toggleFavorite();
               },
+              //body:child //caso body existisse em IconButton
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
               color: Theme.of(context).accentColor, //colorScheme.secondary,
