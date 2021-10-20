@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/components/badge.dart';
 import 'package:shop/components/product_grid.dart';
 import 'package:shop/models/cart.dart';
+import 'package:shop/utils/app_routes.dart';
 
 enum FilterOptions {
   Favorite,
@@ -56,7 +57,9 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
           //Consumer pois a atualização vai ser apenas nesse componente.  Badge
           Consumer<Cart>(
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.CART);
+              },
               icon: Icon(Icons.shopping_cart),
             ),
             builder: (ctx, cart, child) => Badge(
