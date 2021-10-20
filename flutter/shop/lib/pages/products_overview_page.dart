@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/components/badge.dart';
 import 'package:shop/components/product_grid.dart';
+import 'package:shop/models/cart.dart';
 
 enum FilterOptions {
   Favorite,
@@ -49,7 +52,18 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
                 //print(_showFavoriteOnly);
               });
             },
-          )
+          ),
+          //Consumer pois a atualização vai ser apenas nesse componente.  Badge
+          Consumer<Cart>(
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.shopping_cart),
+            ),
+            builder: (ctx, cart, child) => Badge(
+              value: cart.itemsCount.toString(),
+              child: child!,
+            ),
+          ),
         ],
       ),
       body: ProductGrid(_showFavoriteOnly),
