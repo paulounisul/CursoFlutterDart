@@ -6,6 +6,7 @@ import 'package:shop/pages/products_overview_page.dart';
 import 'package:shop/utils/app_routes.dart';
 
 import 'models/cart.dart';
+import 'models/order_list.dart';
 import 'models/product_list.dart';
 
 void main() {
@@ -22,11 +23,15 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        //new , tanto faz usar o new ou não no create ele vai por default, criar uma novo objeto.
         ChangeNotifierProvider(
           create: (_) => new ProductList(),
         ),
         ChangeNotifierProvider(
-          create: (_) => new Cart(),
+          create: (_) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OrderList(),
         ),
       ],
       child: MaterialApp(
