@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/badge.dart';
 import 'package:shop/components/product_grid.dart';
 import 'package:shop/models/cart.dart';
@@ -12,14 +13,14 @@ enum FilterOptions {
 
 //na refatoração vai ser mudado de stateless para statefull
 
-class ProductOverviewPage extends StatefulWidget {
-  ProductOverviewPage({Key? key}) : super(key: key);
+class ProductsOverviewPage extends StatefulWidget {
+  ProductsOverviewPage({Key? key}) : super(key: key);
 
   @override
-  State<ProductOverviewPage> createState() => _ProductOverviewPageState();
+  State<ProductsOverviewPage> createState() => _ProductsOverviewPageState();
 }
 
-class _ProductOverviewPageState extends State<ProductOverviewPage> {
+class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
 
   @override
@@ -70,6 +71,7 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
         ],
       ),
       body: ProductGrid(_showFavoriteOnly),
+      drawer: AppDrawer(),
     );
   }
 }
