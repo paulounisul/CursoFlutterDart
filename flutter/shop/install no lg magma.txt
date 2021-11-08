@@ -1,0 +1,17 @@
+Gerenciamento de estado,
+Provider
+MultiProvider.
+
+Gerenciamento de Listas.
+Carrinho 
+Gerenciamento de Carrinho e 
+Lista. 
+
+Tudo dentro do Padrão OBSERVER.
+
+Nos Favoritos foi usado um Consumer.
+
+
+
+Package install error: Failure [INSTALL_FAILED_DEXOPT]
+Error launching application on LG H502.
