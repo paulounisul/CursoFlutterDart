@@ -24,20 +24,21 @@ class _ProductFormPageState extends State<ProductFormPage> {
               TextFormField(
                 decoration: InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
-                //quando precisar solicitar o focus em um determinado
-                //elemento do form.
+                // quando precisar solicitar o focus em um determinado
+                // elemento do form.
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
               ),
               TextFormField(
-                  decoration: InputDecoration(labelText: 'Preço'),
-                  textInputAction: TextInputAction.next,
-                  //usar numberWidhOption. pois no iOs. o teclado virá sem o ponto.
-                  focusNode: _priceFocus,
-                  keyboardType: TextInputType.numberWithOptions(
-                    decimal: true,
-                  )),
+                decoration: InputDecoration(labelText: 'Preço'),
+                textInputAction: TextInputAction.next,
+                // usar numberWidhOption. pois no iOs. o teclado virá sem o ponto.
+                focusNode: _priceFocus,
+                keyboardType: TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+              ),
             ],
           ),
         ),
