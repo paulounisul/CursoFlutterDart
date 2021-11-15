@@ -8,21 +8,33 @@ class ProductFormPage extends StatefulWidget {
 }
 
 class _ProductFormPageState extends State<ProductFormPage> {
+  final _priceFocus = FocusNode();
+  final _descriptioFocus = FocusNode();
+  final _imageUrlFocus = FocusNode();
+  final _imageUrlController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _imageUrlFocus.addListener(updateImage);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _priceFocus.dispose();
+    _descriptioFocus.dispose();
+    _imageUrlFocus.removeListener(updateImage);
+    _imageUrlFocus.dispose();
+  }
+
+  //chama setstate para atualizar a imagem.
+  void updateImage() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _priceFocus = FocusNode();
-    final _descriptioFocus = FocusNode();
-    final _ImageUrlFocus = FocusNode();
-    final _imageUrlController = TextEditingController();
-
-    @override
-    void dispose() {
-      super.dispose();
-      _priceFocus.dispose();
-      _descriptioFocus.dispose();
-      _ImageUrlFocus.dispose();
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Formulário de Produto'),
@@ -70,7 +82,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       decoration: InputDecoration(labelText: 'Url da Imagem'),
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.url,
-                      focusNode: _ImageUrlFocus,
+                      focusNode: _imageUrlFocus,
                       controller: _imageUrlController,
                     ),
                   ),
@@ -88,7 +100,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       ),
                     ),
                     alignment: Alignment.center,
-                    child: Text('Informe a Url'),
+                    child: _imageUrlController.text.isEmpty
+                        ? Text('Informe a Url')
+                        : FittedBox(
+                            child: Image.network(_imageUrlController.text),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ],
               ),
