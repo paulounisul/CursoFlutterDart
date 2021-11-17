@@ -41,8 +41,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
   }
 
   void _submitForm() {
+    //Validar o Formulário antes de enviar......
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    if (!isValid) {
+      return;
+    }
+
     //o ? e para ele só chamar se o formkey existir.
     _formKey.currentState?.save();
+
     //print(_formData.values);
     final newProduct = Product(
       id: Random().nextDouble().toString(),
@@ -85,6 +93,19 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
                 //salva name em ['name'] se <name> não existir coloca string vazia.
                 onSaved: (name) => _formData['name'] = name ?? '',
+                validator: (_name) {
+                  final name = _name ?? '';
+
+                  if (name.trim().isEmpty) {
+                    return 'Nome é obrigatório';
+                  }
+
+                  if (name.trim().length < 3) {
+                    return 'Nome precisa no mínimo 3 letras';
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Preço'),
