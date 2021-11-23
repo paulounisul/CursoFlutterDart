@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:shop/models/product.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/product_list.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({Key? key}) : super(key: key);
@@ -42,10 +41,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   bool isValidImageUrl(String url) {
     bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
-    bool endsWidhFile = url.toLowerCase().endsWith('.png') ||
-        url.toLowerCase().endsWith('.jpeg') ||
-        url.toLowerCase().endsWith('.jpg');
-    return isValidUrl && endsWidhFile;
+    bool endsWidthFile = true;
+    // bool endsWidthFile = url.toLowerCase().endsWith('.png') ||
+    //     url.toLowerCase().endsWith('.jpeg') ||
+    //     url.toLowerCase().endsWith('.jpg');
+    return isValidUrl && endsWidthFile;
   }
 
   void _submitForm() {
@@ -59,18 +59,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
     //o ? e para ele só chamar se o formkey existir.
     _formKey.currentState?.save();
 
-    //print(_formData.values);
-    final newProduct = Product(
-      id: Random().nextDouble().toString(),
-      name: _formData['name'] as String,
-      description: _formData['description'] as String,
-      price: _formData['price'] as double,
-      imageUrl: _formData['imageUrl'] as String,
-    );
-
-    print(newProduct.id);
-    print(newProduct.name);
-    print(newProduct.price);
+    //Lembrar que aqui.. e obrigatorio passar o Listem..
+    Provider.of<ProductList>(
+      context,
+      listen: false,
+    ).addProductFromData(_formData);
+    Navigator.of(context).pop();
   }
 
   @override
