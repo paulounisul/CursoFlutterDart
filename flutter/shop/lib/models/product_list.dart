@@ -46,7 +46,7 @@ class ProductList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
-    http.post(
+    final future = http.post(
       //a url terminada em .json e especifica do FireBase. lembrar Disso.
       Uri.parse('$_baseUrl/products.json'),
       body: jsonEncode(
@@ -59,8 +59,22 @@ class ProductList with ChangeNotifier {
         },
       ),
     );
-    _items.add(product);
-    notifyListeners();
+    // usado o future como variavel apenas por questões estética
+    // pois a formatação estava terrivel
+    future.then(
+      (response) {
+        final id = jsonDecode(response.body)['name'];
+        _items.add(Product(
+          id: id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          isFavorite: product.isFavorite,
+        ));
+        notifyListeners();
+      },
+    );
   }
 
   void updateProduct(Product product) {
