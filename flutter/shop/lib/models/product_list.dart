@@ -26,7 +26,7 @@ class ProductList with ChangeNotifier {
     return _items.length;
   }
 
-  void saveProductFromData(Map<String, Object> data) {
+  Future<void> saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -39,13 +39,14 @@ class ProductList with ChangeNotifier {
       imageUrl: data['imageUrl'] as String,
     );
     if (hasId) {
-      updateProduct(product);
+      return updateProduct(product);
     } else {
-      addProduct(product);
+      return addProduct(product);
     }
   }
 
-  void addProduct(Product product) {
+  //refatorar addProduct para future.
+  Future<void> addProduct(Product product) {
     final future = http.post(
       //a url terminada em .json e especifica do FireBase. lembrar Disso.
       Uri.parse('$_baseUrl/products.json'),
@@ -61,7 +62,7 @@ class ProductList with ChangeNotifier {
     );
     // usado o future como variavel apenas por questões estética
     // pois a formatação estava terrivel
-    future.then(
+    return future.then<void>(
       (response) {
         final id = jsonDecode(response.body)['name'];
         _items.add(Product(
@@ -77,13 +78,15 @@ class ProductList with ChangeNotifier {
     );
   }
 
-  void updateProduct(Product product) {
+  //refatorar updateProduct para Future.
+  Future<void> updateProduct(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
       _items[index] = product;
       notifyListeners();
     }
+    return Future.value();
   }
 
   void removeProduct(Product product) {
