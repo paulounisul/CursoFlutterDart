@@ -62,20 +62,18 @@ class ProductList with ChangeNotifier {
     );
     // usado o future como variavel apenas por questões estética
     // pois a formatação estava terrivel
-    return future.then<void>(
-      (response) {
-        final id = jsonDecode(response.body)['name'];
-        _items.add(Product(
-          id: id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          isFavorite: product.isFavorite,
-        ));
-        notifyListeners();
-      },
-    );
+    return future.then<void>((response) {
+      final id = jsonDecode(response.body)['name'];
+      _items.add(Product(
+        id: id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        isFavorite: product.isFavorite,
+      ));
+      notifyListeners();
+    });
   }
 
   //refatorar updateProduct para Future.
