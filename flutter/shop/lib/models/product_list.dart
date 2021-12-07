@@ -45,9 +45,10 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  //refatorar addProduct para future.
-  Future<void> addProduct(Product product) {
-    final future = http.post(
+  //2-Refatorar para async await.
+  //1-refatorar addProduct para future.
+  Future<void> addProduct(Product product) async {
+    final response = await http.post(
       //a url terminada em .json e especifica do FireBase. lembrar Disso.
       Uri.parse('$_baseUrl/products.json'),
       body: jsonEncode(
@@ -60,20 +61,17 @@ class ProductList with ChangeNotifier {
         },
       ),
     );
-    // usado o future como variavel apenas por questões estética
-    // pois a formatação estava terrivel
-    return future.then<void>((response) {
-      final id = jsonDecode(response.body)['name'];
-      _items.add(Product(
-        id: id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl,
-        isFavorite: product.isFavorite,
-      ));
-      notifyListeners();
-    });
+
+    final id = jsonDecode(response.body)['name'];
+    _items.add(Product(
+      id: id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      isFavorite: product.isFavorite,
+    ));
+    notifyListeners();
   }
 
   //refatorar updateProduct para Future.
