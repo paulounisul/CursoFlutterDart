@@ -29,6 +29,7 @@ class ProductList with ChangeNotifier {
 
   //Refatorando lista de produtos. de dummydata para FireBase.
   Future<void> loadProducts() async {
+    _items.clear();
     final response = await http.get(Uri.parse(_url));
 
     if (response.body == 'null') return;
