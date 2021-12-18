@@ -7,8 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final _url =
-      'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products.json';
+  //refatorar para usar url diferente no get e push
+  final _baseUrl =
+      'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products';
   List<Product> _items = []; //dummyProducts;
 
   //retornando dessa forma, possibilita que o conteudo de items, seja alterado.
@@ -30,7 +31,9 @@ class ProductList with ChangeNotifier {
   //Refatorando lista de produtos. de dummydata para FireBase.
   Future<void> loadProducts() async {
     _items.clear();
-    final response = await http.get(Uri.parse(_url));
+    final response = await http.get(
+      Uri.parse('$_baseUrl.json'),
+    );
 
     if (response.body == 'null') return;
     //else faz o load
@@ -74,7 +77,7 @@ class ProductList with ChangeNotifier {
   Future<void> addProduct(Product product) async {
     final response = await http.post(
       //a url terminada em .json e especifica do FireBase. lembrar Disso.
-      Uri.parse(_url),
+      Uri.parse('$_baseUrl.json'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -99,10 +102,23 @@ class ProductList with ChangeNotifier {
   }
 
   //refatorar updateProduct para Future.
-  Future<void> updateProduct(Product product) {
+  Future<void> updateProduct(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
+      await http.patch(
+        //a url terminada em .json e especifica do FireBase. lembrar Disso.
+        Uri.parse('$_baseUrl/${product.id}.json'),
+        body: jsonEncode(
+          {
+            "name": product.name,
+            "description": product.description,
+            "price": product.price,
+            "imageUrl": product.imageUrl,
+          },
+        ),
+      );
+
       _items[index] = product;
       notifyListeners();
     }
