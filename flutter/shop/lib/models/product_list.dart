@@ -76,7 +76,7 @@ class ProductList with ChangeNotifier {
   //1-refatorar addProduct para future.
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      //a url terminada em .json e especifica do FireBase. lembrar Disso.
+      //a url terminada em .json e especificão do FireBase. lembrar Disso.
       Uri.parse('$_baseUrl.json'),
       body: jsonEncode(
         {
@@ -125,12 +125,24 @@ class ProductList with ChangeNotifier {
     return Future.value();
   }
 
-  void removeProduct(Product product) {
+  Future<void> removeProduct(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      _items.removeWhere((p) => p.id == product.id);
+      final product = _items[index];
+      _items.remove(product);
       notifyListeners();
+
+      final response = await http.delete(
+        Uri.parse('$_baseUrl/${product.id}'),
+      );
+
+      //erro na familia dos 400 e erro do lado do cliente.
+      //erro na familia dos 500 são erros do lado do servidor.
+      if (response.statusCode >= 400) {
+        _items.insert(index, product);
+        notifyListeners();
+      }
     }
   }
 }
