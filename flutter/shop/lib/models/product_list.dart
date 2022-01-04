@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/exceptions/http_exception.dart';
 //import 'package:shop/data/dummy_data.dart';
 import 'package:shop/models/product.dart';
 
@@ -134,7 +135,7 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       final response = await http.delete(
-        Uri.parse('$_baseUrl/${product.id}'),
+        Uri.parse('$_baseUrl/${product.id}.json'),
       );
 
       //erro na familia dos 400 é erro do lado do cliente.
@@ -142,6 +143,11 @@ class ProductList with ChangeNotifier {
       if (response.statusCode >= 400) {
         _items.insert(index, product);
         notifyListeners();
+
+        throw HttpException(
+          msg: 'Não foi possível excluir o produto.. ',
+          statusCode: response.statusCode,
+        );
       }
     }
   }
