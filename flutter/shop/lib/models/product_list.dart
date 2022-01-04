@@ -137,7 +137,7 @@ class ProductList with ChangeNotifier {
         Uri.parse('$_baseUrl/${product.id}'),
       );
 
-      //erro na familia dos 400 e erro do lado do cliente.
+      //erro na familia dos 400 é erro do lado do cliente.
       //erro na familia dos 500 são erros do lado do servidor.
       if (response.statusCode >= 400) {
         _items.insert(index, product);
