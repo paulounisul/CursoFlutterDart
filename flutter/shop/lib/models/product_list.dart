@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:shop/exceptions/http_exception.dart';
 //import 'package:shop/data/dummy_data.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/utils/constantes.dart';
 
 class ProductList with ChangeNotifier {
-  //refatorar para usar url diferente no get e push
-  final _baseUrl =
-      'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products';
+  // //refatorar para usar url diferente no get e push
+  // final _baseUrl =
+  //     'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products';
   List<Product> _items = []; //dummyProducts;
 
   //retornando dessa forma, possibilita que o conteudo de items, seja alterado.
@@ -33,7 +34,7 @@ class ProductList with ChangeNotifier {
   Future<void> loadProducts() async {
     _items.clear();
     final response = await http.get(
-      Uri.parse('$_baseUrl.json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
     );
 
     if (response.body == 'null') return;
@@ -78,7 +79,7 @@ class ProductList with ChangeNotifier {
   Future<void> addProduct(Product product) async {
     final response = await http.post(
       //a url terminada em .json e especificão do FireBase. lembrar Disso.
-      Uri.parse('$_baseUrl.json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -109,7 +110,7 @@ class ProductList with ChangeNotifier {
     if (index >= 0) {
       await http.patch(
         //a url terminada em .json e especifica do FireBase. lembrar Disso.
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
         body: jsonEncode(
           {
             "name": product.name,
@@ -135,7 +136,7 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       final response = await http.delete(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
       );
 
       //erro na familia dos 400 é erro do lado do cliente.
