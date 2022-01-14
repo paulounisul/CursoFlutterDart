@@ -6,6 +6,7 @@ import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_overview_page.dart';
 import 'package:shop/utils/app_routes.dart';
+import 'package:shop/utils/auth_page.dart';
 
 import 'models/cart.dart';
 import 'models/order_list.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
 
         //home: ProductsOverviewPage(), pode-se comentar essa rota pois o HOME da app_routes vai apontar pro home defindo em routes.
         routes: {
+          AppRoutes.AUTH: (ctx) => AuthPage(),
           AppRoutes.HOME: (ctx) => ProductsOverviewPage(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailPage(),
           AppRoutes.CART: (ctx) => CartPage(),
