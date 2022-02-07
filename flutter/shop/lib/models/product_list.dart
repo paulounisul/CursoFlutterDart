@@ -9,6 +9,7 @@ import 'package:shop/models/product.dart';
 import 'package:shop/utils/constantes.dart';
 
 class ProductList with ChangeNotifier {
+  String _token;
   // //refatorar para usar url diferente no get e push
   // final _baseUrl =
   //     'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products';
@@ -26,6 +27,8 @@ class ProductList with ChangeNotifier {
   List<Product> get favoriteItems =>
       _items.where((prod) => prod.isFavorite).toList();
 
+  ProductList(this._token, this._items);
+
   int get itemsCount {
     return _items.length;
   }
@@ -34,7 +37,7 @@ class ProductList with ChangeNotifier {
   Future<void> loadProducts() async {
     _items.clear();
     final response = await http.get(
-      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json?auth=$_token'),
     );
 
     if (response.body == 'null') return;

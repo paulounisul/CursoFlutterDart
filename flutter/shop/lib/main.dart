@@ -31,16 +31,23 @@ class MyApp extends StatelessWidget {
       providers: [
         //new , tanto faz usar o new ou não no create ele vai por default, criar uma novo objeto.
         ChangeNotifierProvider(
-          create: (_) => new ProductList(),
+          create: (_) => Auth(),
+        ),
+        //Proxy..o provider depende de outro provider.
+        ChangeNotifierProxyProvider<Auth, ProductList>(
+          create: (_) => new ProductList('', []),
+          update: (ctx, auth, previous) {
+            return ProductList(
+              auth.token ?? '',
+              previous?.items ?? [],
+            );
+          },
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
         ),
         ChangeNotifierProvider(
           create: (_) => OrderList(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Auth(),
         ),
       ],
       child: MaterialApp(
