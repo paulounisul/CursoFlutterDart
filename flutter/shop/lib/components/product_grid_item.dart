@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/models/auth.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/utils/app_routes.dart';
@@ -10,6 +11,7 @@ class ProductGridItem extends StatelessWidget {
     //listen: false - Qquando não for para a alterações do produto ser renderizado na tela..
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -45,7 +47,7 @@ class ProductGridItem extends StatelessWidget {
             //Terceiro parametro e um child que pode ser passado para o consumer.
             builder: (ctx, product, child) => IconButton(
               onPressed: () {
-                product.toggleFavorite();
+                product.toggleFavorite(auth.token ?? '');
               },
               //body:child //caso body existisse em IconButton
               icon: Icon(

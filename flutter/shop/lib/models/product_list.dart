@@ -9,7 +9,7 @@ import 'package:shop/models/product.dart';
 import 'package:shop/utils/constantes.dart';
 
 class ProductList with ChangeNotifier {
-  String _token;
+  final String _token;
   // //refatorar para usar url diferente no get e push
   // final _baseUrl =
   //     'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products';
@@ -82,7 +82,7 @@ class ProductList with ChangeNotifier {
   Future<void> addProduct(Product product) async {
     final response = await http.post(
       //a url terminada em .json e especificão do FireBase. lembrar Disso.
-      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json?auth=$_token'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -113,7 +113,8 @@ class ProductList with ChangeNotifier {
     if (index >= 0) {
       await http.patch(
         //a url terminada em .json e especifica do FireBase. lembrar Disso.
-        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
+        Uri.parse(
+            '${Constants.PRODUCT_BASE_URL}/${product.id}.json?auth=$_token'),
         body: jsonEncode(
           {
             "name": product.name,
@@ -139,7 +140,9 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       final response = await http.delete(
-        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
+        Uri.parse(
+          '${Constants.PRODUCT_BASE_URL}/${product.id}.json?auth=$_token',
+        ),
       );
 
       //erro na familia dos 400 é erro do lado do cliente.

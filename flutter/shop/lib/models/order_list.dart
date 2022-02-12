@@ -8,7 +8,11 @@ import 'cart.dart';
 import 'order.dart';
 
 class OrderList with ChangeNotifier {
+  final String _token;
+
   List<Order> _items = [];
+
+  OrderList(this._token, this._items);
 
   List<Order> get items {
     return [..._items];
@@ -20,9 +24,10 @@ class OrderList with ChangeNotifier {
 
   //Refatorando lista de produtos. de dummydata para FireBase.
   Future<void> loadOrders() async {
-    _items.clear();
+    List<Order> items = [];
+
     final response = await http.get(
-      Uri.parse('${Constants.ORDER_BASE_URL}.json'),
+      Uri.parse('${Constants.ORDER_BASE_URL}.json?auth=$_token'),
     );
 
     print(response.body.toString());
@@ -30,7 +35,7 @@ class OrderList with ChangeNotifier {
     //else faz o load
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((orderId, orderData) {
-      _items.add(
+      items.add(
         Order(
           id: orderId,
           date: DateTime.parse(orderData['date']),
@@ -48,6 +53,7 @@ class OrderList with ChangeNotifier {
       );
     });
 
+    _items = items.reversed.toList();
     notifyListeners();
   }
 
@@ -59,7 +65,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
     final response = await http.post(
       //a url terminada em .json e especificão do FireBase. lembrar Disso.
-      Uri.parse('${Constants.ORDER_BASE_URL}.json'),
+      Uri.parse('${Constants.ORDER_BASE_URL}.json?auth=$_token'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
@@ -78,7 +84,7 @@ class OrderList with ChangeNotifier {
     );
 
     final id = jsonDecode(response.body)['name'];
-    _items.insert(
+    items.insert(
       0,
       Order(
         id: id, //Random().nextDouble().toString(),
