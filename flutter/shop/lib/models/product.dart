@@ -26,14 +26,16 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavorite(String token) async {
+  Future<void> toggleFavorite(String token, String userId) async {
     try {
       _toggleFavorite();
 
-      final response = await http.patch(
+      //refatorado para put. pois agora não vai mais atualizar produto. Mais sim popular a propria rota de favorito.
+      final response = await http.put(
         //a url terminada em .json e especifica do FireBase. lembrar Disso.
-        Uri.parse('${Constants.PRODUCT_BASE_URL}/$id.json?auth=$token'),
-        body: jsonEncode({"isFavorite": isFavorite}),
+        Uri.parse(
+            '${Constants.PRODUCT_FAVORITE_URL}/$userId/$id.json?auth=$token'),
+        body: jsonEncode(isFavorite),
       );
 
       if (response.statusCode >= 400) {

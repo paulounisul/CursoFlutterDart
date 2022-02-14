@@ -47,7 +47,10 @@ class ProductGridItem extends StatelessWidget {
             //Terceiro parametro e um child que pode ser passado para o consumer.
             builder: (ctx, product, child) => IconButton(
               onPressed: () {
-                product.toggleFavorite(auth.token ?? '');
+                product.toggleFavorite(
+                  auth.token ?? '',
+                  auth.userId ?? '',
+                );
               },
               //body:child //caso body existisse em IconButton
               icon: Icon(
