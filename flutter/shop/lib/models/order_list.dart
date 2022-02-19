@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+//import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop/models/cart_item.dart';
@@ -12,7 +12,10 @@ class OrderList with ChangeNotifier {
 
   List<Order> _items = [];
 
-  OrderList(this._token, this._items);
+  OrderList([
+    this._token = '',
+    this._items = const [],
+  ]);
 
   List<Order> get items {
     return [..._items];
@@ -57,10 +60,10 @@ class OrderList with ChangeNotifier {
     notifyListeners();
   }
 
-  /**
-   * pra jogar o pedido pra nuvem. Vamos transformar o addOrder em uma 
-   * future
-  */
+  ///***
+  ///* pra jogar o pedido pra nuvem. Vamos transformar o addOrder em uma
+  ///* future
+  ///***/
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();
     final response = await http.post(

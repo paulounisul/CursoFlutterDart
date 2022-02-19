@@ -10,6 +10,7 @@ import 'package:shop/utils/constantes.dart';
 
 class ProductList with ChangeNotifier {
   final String _token;
+  final String _userId;
   // //refatorar para usar url diferente no get e push
   // final _baseUrl =
   //     'https://shop-cod3r-e3bd2-default-rtdb.firebaseio.com/products';
@@ -20,14 +21,18 @@ class ProductList with ChangeNotifier {
   //Já dessa forma forçara a passar pelos metódos de ProductList.
   //List<Product> get items => [..._items];
 
-  bool _showFavoriteOnly = false;
+//  bool _showFavoriteOnly = false;
 
   //refatorar para pegar apartir dos popup favorito ou todos.
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
       _items.where((prod) => prod.isFavorite).toList();
 
-  ProductList(this._token, this._items);
+  ProductList([
+    this._token = '',
+    this._userId = '',
+    this._items = const [],
+  ]);
 
   int get itemsCount {
     return _items.length;
@@ -40,10 +45,19 @@ class ProductList with ChangeNotifier {
       Uri.parse('${Constants.PRODUCT_BASE_URL}.json?auth=$_token'),
     );
 
+    final favResponse = await http.get(
+      //a url terminada em .json e especifica do FireBase. lembrar Disso.
+      Uri.parse('${Constants.USER_FAVORITES_URL}/$_userId.json?auth=$_token'),
+    );
+
+    Map<String, dynamic> favData =
+        favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
+
     if (response.body == 'null') return;
     //else faz o load
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
+      final isFavorite = favData[productId] ?? false;
       _items.add(
         Product(
           id: productId,
@@ -51,6 +65,7 @@ class ProductList with ChangeNotifier {
           description: productData['description'],
           price: productData['price'],
           imageUrl: productData['imageUrl'],
+          isFavorite: isFavorite,
           // foi refatorado para persistir o favorito por usuário.
           // isFavorite: productData['isFavorite'],
         ),

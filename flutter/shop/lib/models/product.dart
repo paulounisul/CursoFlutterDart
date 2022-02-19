@@ -34,7 +34,7 @@ class Product with ChangeNotifier {
       final response = await http.put(
         //a url terminada em .json e especifica do FireBase. lembrar Disso.
         Uri.parse(
-            '${Constants.PRODUCT_FAVORITE_URL}/$userId/$id.json?auth=$token'),
+            '${Constants.USER_FAVORITES_URL}/$userId/$id.json?auth=$token'),
         body: jsonEncode(isFavorite),
       );
 

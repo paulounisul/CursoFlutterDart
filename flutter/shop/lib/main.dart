@@ -6,9 +6,9 @@ import 'package:shop/pages/cart_page.dart';
 import 'package:shop/pages/orders_page.dart';
 import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_form_page.dart';
-import 'package:shop/pages/products_overview_page.dart';
+//import 'package:shop/pages/products_overview_page.dart';
 import 'package:shop/utils/app_routes.dart';
-import 'package:shop/utils/auth_page.dart';
+//import 'package:shop/utils/auth_page.dart';
 
 import 'models/cart.dart';
 import 'models/order_list.dart';
@@ -35,16 +35,17 @@ class MyApp extends StatelessWidget {
         ),
         //Proxy..o provider depende de outro provider.
         ChangeNotifierProxyProvider<Auth, ProductList>(
-          create: (_) => new ProductList('', []),
+          create: (_) => new ProductList(),
           update: (ctx, auth, previous) {
             return ProductList(
               auth.token ?? '',
+              auth.userId ?? '',
               previous?.items ?? [],
             );
           },
         ),
         ChangeNotifierProxyProvider<Auth, OrderList>(
-          create: (_) => OrderList('', []),
+          create: (_) => OrderList(),
           update: (ctx, auth, previous) {
             return OrderList(
               auth.token ?? '',

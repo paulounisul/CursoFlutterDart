@@ -30,7 +30,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     if (_formData.isEmpty) {
