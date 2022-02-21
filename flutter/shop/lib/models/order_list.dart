@@ -9,11 +9,13 @@ import 'order.dart';
 
 class OrderList with ChangeNotifier {
   final String _token;
+  final String _userId;
 
   List<Order> _items = [];
 
   OrderList([
     this._token = '',
+    this._userId = '',
     this._items = const [],
   ]);
 
@@ -30,7 +32,7 @@ class OrderList with ChangeNotifier {
     List<Order> items = [];
 
     final response = await http.get(
-      Uri.parse('${Constants.ORDER_BASE_URL}.json?auth=$_token'),
+      Uri.parse('${Constants.ORDER_BASE_URL}/$_userId.json?auth=$_token'),
     );
 
     print(response.body.toString());
@@ -68,7 +70,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
     final response = await http.post(
       //a url terminada em .json e especificão do FireBase. lembrar Disso.
-      Uri.parse('${Constants.ORDER_BASE_URL}.json?auth=$_token'),
+      Uri.parse('${Constants.ORDER_BASE_URL}/$_userId.json?auth=$_token'),
       body: jsonEncode(
         {
           'total': cart.totalAmount,
