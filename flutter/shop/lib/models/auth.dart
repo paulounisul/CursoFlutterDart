@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class Auth with ChangeNotifier {
   String? _email;
   String? _userId;
   DateTime? _expiryDate;
+  Timer? _logoutTimer;
 
   bool get isAuth {
     final isValid = _expiryDate?.isAfter(DateTime.now()) ?? false;
@@ -41,7 +43,6 @@ class Auth with ChangeNotifier {
     );
 
     final body = jsonDecode(response.body);
-    print(jsonDecode(response.body));
 
     if (body['error'] != null) {
       print('Olaa ${body['error']['message']}');
@@ -57,6 +58,9 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
+
+      //quando estiver logado por varios minutos força a saida.
+      _autoLogout();
       notifyListeners();
     }
   }
@@ -74,6 +78,22 @@ class Auth with ChangeNotifier {
     _email = '';
     _userId = '';
     _expiryDate = null;
+    _clearLogoutTimer();
     notifyListeners();
+  }
+
+  void _clearLogoutTimer() {
+    _logoutTimer?.cancel();
+    _logoutTimer = null;
+  }
+
+  void _autoLogout() {
+    _clearLogoutTimer();
+    final timeToLogout = _expiryDate?.difference(DateTime.now()).inSeconds;
+    print(timeToLogout);
+    _logoutTimer = Timer(
+      Duration(seconds: timeToLogout ?? 0),
+      logout,
+    );
   }
 }

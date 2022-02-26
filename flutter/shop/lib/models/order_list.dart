@@ -35,7 +35,6 @@ class OrderList with ChangeNotifier {
       Uri.parse('${Constants.ORDER_BASE_URL}/$_userId.json?auth=$_token'),
     );
 
-    print(response.body.toString());
     if (response.body == 'null') return;
     //else faz o load
     Map<String, dynamic> data = jsonDecode(response.body);
