@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/data/store.dart';
 import 'package:shop/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
@@ -59,6 +60,13 @@ class Auth with ChangeNotifier {
         ),
       );
 
+      Store.saveMap('userData', {
+        'token': _token,
+        'email': _email,
+        'userId': _userId,
+        'expiryDate': _expiryDate!.toIso8601String(),
+      });
+
       //quando estiver logado por varios minutos força a saida.
       _autoLogout();
       notifyListeners();
@@ -71,6 +79,30 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     return _authenticate(email, password, 'signInWithPassword');
+  }
+
+  //metodo para automatizar o login dentro do perido que o firebase der.
+  Future<void> tryAutoLogin() async {
+    //Validar os dados de Login.
+    if (isAuth) return;
+
+    final userData = await Store.getMap('userData');
+
+    if (userData.isEmpty) return;
+
+    final expiryDate = DateTime.parse(userData['expiryDate']);
+
+    if (expiryDate.isBefore(DateTime.now())) return;
+
+    //Se dados de login são validos então procede com a recuperação de login.
+
+    _token = userData['token'];
+    _email = userData['email'];
+    _userId = userData['userId'];
+    _expiryDate = expiryDate;
+
+    _autoLogout();
+    notifyListeners();
   }
 
   void logout() {
