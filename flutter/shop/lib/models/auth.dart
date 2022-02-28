@@ -111,6 +111,9 @@ class Auth with ChangeNotifier {
     _userId = '';
     _expiryDate = null;
     _clearLogoutTimer();
+    Store.remove('userData').then((_) {
+      notifyListeners();
+    });
     notifyListeners();
   }
 
