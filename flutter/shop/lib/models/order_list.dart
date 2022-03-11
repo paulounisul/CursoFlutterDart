@@ -36,8 +36,10 @@ class OrderList with ChangeNotifier {
     );
 
     if (response.body == 'null') return;
+
     //else faz o load
     Map<String, dynamic> data = jsonDecode(response.body);
+
     data.forEach((orderId, orderData) {
       items.add(
         Order(
