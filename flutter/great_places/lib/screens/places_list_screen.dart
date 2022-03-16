@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:great_places/utils/app_routes.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class PlaceListScreen extends StatelessWidget {
   const PlaceListScreen({Key? key}) : super(key: key);
