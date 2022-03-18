@@ -4,27 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key}) : super(key: key);
+  final Function onSelectImage;
+  // const ImageInput({Key? key}) : super(key: key);
+
+  const ImageInput(this.onSelectImage, {Key? key}) : super(key: key);
 
   @override
   State<ImageInput> createState() => _ImageInputState();
+  // _ImageInputState createState() => _ImageInputState();
 }
 
 class _ImageInputState extends State<ImageInput> {
-  late File _storedImage;
+  File? _storedImage;
 
   _takePicture() async {
     final ImagePicker _picker = ImagePicker();
 
-    final PickedFile? imageFile = await _picker.getImage(
+    XFile imageFile = await _picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
-    );
+    ) as XFile;
 
-    if (imageFile == null) return;
     setState(() {
       _storedImage = File(imageFile.path);
     });
+
+    // widget.onSelectImage(...);
   }
 
   @override
@@ -38,10 +43,10 @@ class _ImageInputState extends State<ImageInput> {
             border: Border.all(width: 1, color: Colors.grey),
           ),
           alignment: Alignment.center,
-          child: _storedImage != null
+          child: _storedImage == null
               ? Text('Nenhuma imagem..')
               : Image.file(
-                  _storedImage,
+                  _storedImage!,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
