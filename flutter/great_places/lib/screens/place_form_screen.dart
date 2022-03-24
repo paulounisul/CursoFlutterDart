@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:great_places/providers/grate_places.dart';
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../widgets/image_input.dart';
@@ -21,7 +23,16 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
   }
 
   void _submitForm() {
-    print('Submited form!!');
+    if (_titleController.text.isEmpty || _pickedImage == null) {
+      return;
+    }
+
+    Provider.of<GreatPlaces>(context, listen: false).addPlaces(
+      _titleController.text,
+      _pickedImage,
+    );
+
+    Navigator.of(context).pop();
   }
 
   @override
