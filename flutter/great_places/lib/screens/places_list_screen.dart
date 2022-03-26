@@ -26,7 +26,7 @@ class PlaceListScreen extends StatelessWidget {
           child: Text('Nenhum Local cadastrado....'),
         ),
         builder: (ctx, greatPlaces, ch) => greatPlaces.itemsCount == 0
-            ? ch as Widget
+            ? ch as Widget //Esse casting não esta no curso..
             : ListView.builder(
                 itemCount: greatPlaces.itemsCount,
                 itemBuilder: (ctx, i) => ListTile(
