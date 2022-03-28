@@ -1,0 +1,50 @@
+#define CODIGO      1      
+#define QTDE        2      
+#define DESCRICAO   3      
+#define STATUSFIS   4  //paulofiscal
+#define CUSTOFOB    5  //paulofiscal    
+#define CUSTOFISC   6  //paulofiscal
+#define TOTALFISC   7
+#define TOTALFOB    8      
+#define DESPESAS    9      
+#define SERIEINIC  10  
+#define DESPPESO   11
+#define SERIEFINAL 12      
+#define PDESPACHO  13      
+#define PSEGURO    14      
+#define PTRANSFE   15      
+#define CODDESMB   16      
+#define QTDEDESM   17      
+#define DESDESMB   18      
+#define GTIA       19      
+#define OBS        20      
+#define SUBITEM    21      
+#define CODCOMP    22      
+#define PESO       23      
+#define TXPESO     24      
+#define TOTALPESO  25      
+#define IVA        26      
+#define CUSTODESM  27      
+#define DESPDESM   28      
+#define PRECO_A    29      
+#define PRECO_B    30
+#define PRECO_C    31
+#define PRECO_D    32
+#define PRECO_E    33
+#define PRECO_F    34
+#define LOTE       35
+#define VENC_LTE   36
+#define CUSTOMOEDA 37
+#define TOTALFRETE 38
+#define DECRETO6649 39
+
+#define PRODUCAO   40
+
+
+nRow
+nC
+contador
+
+
+https://www.youtube.com/watch?v=amDZ7JwLJsU
+

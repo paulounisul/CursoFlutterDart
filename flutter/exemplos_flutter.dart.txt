@@ -1,0 +1,22 @@
+mport 'dart:async';
+
+void main() {
+  //Inicio estudo do BloC.. 04/11/2021
+  
+  //cria o stream
+  final  ctrl =  StreamController();
+  //final StreamSubcription sub = ctrl.stream.listen((dados){
+  
+  final sub = ctrl.stream.listen((dados){
+      print('$dados');
+  });
+  
+  //adicionar dados na stream
+  ctrl.sink.add('Paulo BloC');
+  ctrl.sink.add(2019);
+  ctrl.sink.add({'nome':'Paulo Bandeira','idade':50});
+  
+  //fechar o stream
+  ctrl.close();
+  
+}
