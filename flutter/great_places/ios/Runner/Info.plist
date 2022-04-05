@@ -22,6 +22,10 @@
 	<string>Precisamos tirar foto cliente!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Precisamos tirar foto cliente!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need to get your Location!</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need to get your Location!</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>

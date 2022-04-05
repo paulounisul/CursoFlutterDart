@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: const PlaceListScreen(),
+        home: PlaceListScreen(),
         routes: {
-          AppRoutes.PLACE_FORM: (ctx) => const PlaceFormScreen(),
+          AppRoutes.PLACE_FORM: (ctx) => PlaceFormScreen(),
         },
       ),
     );

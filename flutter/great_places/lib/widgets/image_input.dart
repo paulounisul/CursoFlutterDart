@@ -51,7 +51,7 @@ class _ImageInputState extends State<ImageInput> {
           ),
           alignment: Alignment.center,
           child: _storedImage == null
-              ? Text('Nenhuma imagem..')
+              ? const Text('Nenhuma imagem..')
               : Image.file(
                   _storedImage!,
                   width: double.infinity,

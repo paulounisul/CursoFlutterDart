@@ -25,9 +25,9 @@ class PlaceListScreen extends StatelessWidget {
         future: Provider.of<GreatPlaces>(context, listen: false).loadPlaces(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Consumer<GreatPlaces>(
-                child: Center(
+                child: const Center(
                   child: Text('Nenhum Local cadastrado....'),
                 ),
                 builder: (ctx, greatPlaces, ch) => greatPlaces.itemsCount == 0
