@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/providers/greate_places.dart';
 import 'package:great_places/widgets/location_input.dart';
 import 'package:provider/provider.dart';
@@ -16,15 +17,30 @@ class PlaceFormScreen extends StatefulWidget {
 class _PlaceFormScreenState extends State<PlaceFormScreen> {
   final _titleController = TextEditingController();
   late File _pickedImage;
+  LatLng? _pickedPositon;
 
   void _selectImage(File pickedImage) {
-    _pickedImage = pickedImage;
+    setState(() {
+      _pickedImage = pickedImage;
+    });
+  }
+
+  void _selectPosition(LatLng position) {
+    setState(() {
+      _pickedPositon = position;
+    });
+  }
+
+  bool _isValidForm() {
+    return _titleController.text.isNotEmpty &&
+        _pickedImage != null &&
+        _pickedPositon != null;
   }
 
   void _submitForm() {
-    // if (_titleController.text.isEmpty || _pickedImage == null) {
-    //   return;
-    // }
+    print('Entrou SubMitForm..');
+    if (!_isValidForm()) return;
+
     if (_titleController.text.isEmpty) {
       return;
     }
@@ -32,9 +48,8 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
     Provider.of<GreatPlaces>(context, listen: false).addPlaces(
       _titleController.text,
       _pickedImage,
+      _pickedPositon!,
     );
-
-    print('passou pelo provider de greatPlaces');
 
     Navigator.of(context).pop();
   }
@@ -57,14 +72,17 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
                   children: <Widget>[
                     TextField(
                       controller: _titleController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Título',
                       ),
+                      // onChanged: (text) {
+                      //   setState(() {});
+                      // },
                     ),
                     SizedBox(height: 10),
                     ImageInput(_selectImage),
                     SizedBox(height: 10),
-                    LocationInput(),
+                    LocationInput(this._selectPosition),
                   ],
                 ),
               ),
@@ -77,7 +95,14 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
             color: Theme.of(context).accentColor,
             elevation: 0,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: _submitForm,
+            onPressed: _isValidForm() ? _submitForm : null,
+            // onPressed: () {
+            //   if (_isValidForm()) {
+            //     print('vai salvar...');
+            //     _submitForm;
+            //   } else {
+            //     print('Não vai salvar');
+            //   }
           ),
         ],
       ),

@@ -30,8 +30,9 @@ class PlaceListScreen extends StatelessWidget {
                 child: const Center(
                   child: Text('Nenhum Local cadastrado....'),
                 ),
-                builder: (ctx, greatPlaces, ch) => greatPlaces.itemsCount == 0
-                    ? ch as Widget //Esse casting não esta no curso..
+                // ? ch as Widget //Esse casting não esta no curso..
+                builder: (ctx, greatPlaces, ch) => greatPlaces.items == 0
+                    ? ch!
                     : ListView.builder(
                         itemCount: greatPlaces.itemsCount,
                         itemBuilder: (ctx, i) => ListTile(
@@ -41,7 +42,14 @@ class PlaceListScreen extends StatelessWidget {
                             ),
                           ),
                           title: Text(greatPlaces.itemByIndex(i).title),
-                          onTap: () {},
+                          subtitle:
+                              Text(greatPlaces.itemByIndex(i).location.address),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              AppRoutes.PLACE_DETAIL,
+                              arguments: greatPlaces.itemByIndex(i),
+                            );
+                          },
                         ),
                       ),
               ),
